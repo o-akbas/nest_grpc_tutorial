@@ -1,19 +1,17 @@
-import { Controller, Get, Inject, OnModuleInit } from '@nestjs/common';
-import { UserServiceClient } from '../proto/user/user';
-import { ClientGrpc } from '@nestjs/microservices';
+import { Controller, Get } from '@nestjs/common';
 import { OrderService } from './order.service';
 
-
-@Controller('order')
+@Controller()
 export class OrderController {
+  constructor(private orderService: OrderService) {}
 
-  constructor(
-    private orderService: OrderService,
-  ) {}
-
-
-  @Get('myOrders')
+  @Get('grpc')
   getOrders() {
     return this.orderService.getOrders('userId1');
+  }
+
+  @Get('rest')
+  getRestOrders() {
+    return this.orderService.getRestOrder('userId1');
   }
 }

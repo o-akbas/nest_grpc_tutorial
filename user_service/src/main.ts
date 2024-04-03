@@ -8,11 +8,13 @@ async function bootstrap() {
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.GRPC, // Use Transport.GRPC for gRPC
     options: {
-      url: 'localhost:5000',
+      url: 'localhost:5000', // ??? LOCALHOST OR ORDER SERVICE IP
       protoPath: join(__dirname, '../src/proto/user/user.proto'),
-      package: 'user'
-  }});
+      package: 'user',
+      maxReceiveMessageLength: 100 * 1024 * 1024,
+    },
+  });
   await app.startAllMicroservices();
-  await app.listen(3000);
+  await app.listen(4000);
 }
 bootstrap();
